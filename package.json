@@ -1,0 +1,22 @@
+{
+  "name": "synchro-click",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "electron-packager . synchro-click --platform=win32 --arch=x64 --out=dist --overwrite"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "robotjs": "^0.6.0"
+  },
+  "devDependencies": {
+    "electron": "^35.1.4",
+    "electron-rebuild": "^3.2.9",
+    "electron-packager": "^17.1.1"
+  }
+}
