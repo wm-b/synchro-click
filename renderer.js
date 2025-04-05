@@ -68,7 +68,7 @@ const handleScheduleClick = (name, time) => {
       .getElementById(`btn-${currentSchedule.name}`)
       ?.classList.remove("selected")
 
-    if ((name = currentSchedule.name)) {
+    if ((name === currentSchedule.name)) {
       currentSchedule = null
       return
     }
