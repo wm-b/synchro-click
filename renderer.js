@@ -15,24 +15,31 @@ const scheduleNames = [
 
 let currentTime = null
 let currentSchedule = null
-let retryCount = 0
-const maxRetries = 5
 
-const getTime = async () => {
-  const { dateTime } = await fetch(
-    "https://timeapi.io/api/time/current/zone?timeZone=Europe/Amsterdam"
-  )
-    .then((res) => res.json())
-    .catch((err) => {
-      console.error("Error fetching time:", err)
-      retryCount++
+const getTime = async (retryCount = 0) => {
+  const maxRetries = 5
+
+  try {
+    const response = await fetch(
+      "https://timeapi.io/api/time/current/zone?timeZone=Europe/Amsterdam"
+    )
+    const { dateTime } = await response.json()
+    return new Date(dateTime).getTime()
+  } catch (err) {
+    console.error("Error fetching time:", err)
+    retryCount++
+    if (retryCount > maxRetries) {
       document.getElementById(
         "schedule-list"
-      ).innerText = `Error fetching time. Retrying... (${retryCount}/${maxRetries})`
-      if (retryCount < maxRetries) throw new Error("Failed to fetch time")
-    })
+      ).innerText = `Error fetching time. Retried ${maxRetries} times.`
+      throw new Error("Failed to fetch time after maximum retries")
+    }
+    document.getElementById(
+      "schedule-list"
+    ).innerText = `Error fetching time. Retrying... (${retryCount}/${maxRetries})`
 
-  return new Date(dateTime).getTime()
+    return getTime(retryCount)
+  }
 }
 
 const getNextSchedule = (time) => {
