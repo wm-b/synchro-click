@@ -25,6 +25,7 @@ const getTime = async () => {
     .then((res) => res.json())
     .catch((err) => {
       console.error("Error fetching time:", err)
+      retryCount++
       document.getElementById(
         "schedule-list"
       ).innerText = `Error fetching time. Retrying... (${retryCount}/${maxRetries})`
